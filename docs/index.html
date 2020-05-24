@@ -1510,15 +1510,15 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">データの読み込み</h1>
-<h4 class="date">2020/04/22</h4>
+<h4 class="date">2020/05/24</h4>
 
 </div>
 
 
 <div id="excelファイルの読み込み" class="section level1">
-<h1>Excelファイルの読み込み</h1>
-<div id="エクセルファイルを開く" class="section level2">
-<h2>エクセルファイルを開く</h2>
+<h1><span class="header-section-number">1</span> Excelファイルの読み込み</h1>
+<div id="一つのexcelファイルを読み込む" class="section level2">
+<h2><span class="header-section-number">1.1</span> 一つのExcelファイルを読み込む</h2>
 <ul>
 <li>dataフォルダに入っている「データ.xlsx」を開く</li>
 <li>デフォルトでは一番最初のシートのデータが読みこまれる</li>
@@ -1543,15 +1543,15 @@ df_a</code></pre>
 ## 9 黒澤       1   154</code></pre>
 </div>
 <div id="シートを指定して読みこむ" class="section level2">
-<h2>シートを指定して読みこむ</h2>
+<h2><span class="header-section-number">1.2</span> シートを指定して読みこむ</h2>
 <div id="シート名の確認" class="section level3">
-<h3>シート名の確認</h3>
+<h3><span class="header-section-number">1.2.1</span> シート名の確認</h3>
 <p>readxl::excel_sheets</p>
 <pre class="r"><code>excel_sheets(&quot;data/データ.xlsx&quot;)</code></pre>
 <pre><code>## [1] &quot;Aqours&quot; &quot;μ&#39;s&quot;</code></pre>
 </div>
 <div id="読み込み" class="section level3">
-<h3>読み込み</h3>
+<h3><span class="header-section-number">1.2.2</span> 読み込み</h3>
 <pre class="r"><code>df_m &lt;- 
   read_excel(&quot;data/データ.xlsx&quot;, sheet = &quot;μ&#39;s&quot; )
 
@@ -1571,9 +1571,9 @@ df_m</code></pre>
 </div>
 </div>
 <div id="すべてのシートから読みこんで1つのデータセットにまとめる" class="section level2">
-<h2>すべてのシートから読みこんで1つのデータセットにまとめる</h2>
+<h2><span class="header-section-number">1.3</span> すべてのシートから読みこんで1つのデータセットにまとめる</h2>
 <div id="すべてのシートから読み込み" class="section level3">
-<h3>すべてのシートから読み込み</h3>
+<h3><span class="header-section-number">1.3.1</span> すべてのシートから読み込み</h3>
 <ul>
 <li></li>
 </ul>
@@ -1581,29 +1581,29 @@ df_m</code></pre>
 library(janitor)   # clean_names()を使うため
 
 
-path_name &lt;- &quot;data/データ.xlsx&quot; # シート名取得
+path_name &lt;- &quot;data/データ.xlsx&quot; # データのパスを格納
 
 # シート名を取得しそれぞれから読み込んでリストにまとめる
 df_all &lt;-
-  excel_sheets(path_name) %&gt;%
-  set_names() %&gt;%                           # 名前付きベクトルにする
+  excel_sheets(path_name) %&gt;%               # すべてのシートから読む方法（helpより）      
+  set_names() %&gt;%                           # 名前付きベクトルにする、↓で作成されるリストの要素名にもなる
   map(read_excel, path =  path_name) %&gt;%
   map(clean_names, case = &quot;old_janitor&quot;)    # エラーになる文字を自動で整形。日本語の場合，case = &quot;old_janitor&quot;を引数に入れた方がいい場合も
 
 # 読みこんだデータ全体の構造を表示
 str(df_all)</code></pre>
 <pre><code>## List of 2
-##  $ Aqours:Classes &#39;tbl_df&#39;, &#39;tbl&#39; and &#39;data.frame&#39;:  9 obs. of  3 variables:
+##  $ Aqours: tibble [9 x 3] (S3: tbl_df/tbl/data.frame)
 ##   ..$ 名前: chr [1:9] &quot;高海&quot; &quot;桜内&quot; &quot;松浦&quot; &quot;黒澤&quot; ...
 ##   ..$ 学年: num [1:9] 2 2 3 3 2 1 1 3 1
 ##   ..$ 身長: num [1:9] 157 160 162 162 157 156 152 163 154
-##  $ μ&#39;s  :Classes &#39;tbl_df&#39;, &#39;tbl&#39; and &#39;data.frame&#39;:   9 obs. of  3 variables:
+##  $ μ&#39;s  : tibble [9 x 3] (S3: tbl_df/tbl/data.frame)
 ##   ..$ 名前: chr [1:9] &quot;高坂&quot; &quot;絢瀬&quot; &quot;南&quot; &quot;園田&quot; ...
 ##   ..$ 学年: num [1:9] 2 3 2 2 1 1 3 1 3
 ##   ..$ 身長: num [1:9] 157 162 159 159 155 161 159 156 154</code></pre>
 </div>
 <div id="個別でexcelファイルに保存する" class="section level3">
-<h3>個別でExcelファイルに保存する</h3>
+<h3><span class="header-section-number">1.3.2</span> 個別でExcelファイルに保存する</h3>
 <ul>
 <li>リストの要素名をファイル名にする</li>
 </ul>
@@ -1611,8 +1611,8 @@ str(df_all)</code></pre>
 
 imap(df_all, ~write_xlsx(.x, path = str_c(&quot;result/&quot;,.y , &quot;.xlsx&quot;)))</code></pre>
 </div>
-<div id="つのデータフレームにする" class="section level3">
-<h3>1つのデータフレームにする</h3>
+<div id="一つのデータフレームにする" class="section level3">
+<h3><span class="header-section-number">1.3.3</span> 一つのデータフレームにする</h3>
 <ul>
 <li>引数<code>.id =</code>で、リストの要素名を変数の値として入れられる</li>
 </ul>
@@ -1639,13 +1639,62 @@ imap(df_all, ~write_xlsx(.x, path = str_c(&quot;result/&quot;,.y , &quot;.xlsx&q
 ## 17 μ&#39;s    小泉       1   156
 ## 18 μ&#39;s    矢澤       3   154</code></pre>
 <div id="excelファイルに保存する" class="section level4">
-<h4>Excelファイルに保存する</h4>
+<h4><span class="header-section-number">1.3.3.1</span> Excelファイルに保存する</h4>
 </div>
+</div>
+</div>
+<div id="複数のexcelファイルを読み込む" class="section level2">
+<h2><span class="header-section-number">1.4</span> 複数のExcelファイルを読み込む</h2>
+<div id="読み込むファイル名の一覧のオブジェクト作成" class="section level3">
+<h3><span class="header-section-number">1.4.1</span> 読み込むファイル名の一覧のオブジェクト作成</h3>
+<pre class="r"><code>  files &lt;-
+    list.files(path = &quot;result/&quot;, full.names = TRUE) # resultフォルダから</code></pre>
+</div>
+<div id="ファイルを一括で読み込む" class="section level3">
+<h3><span class="header-section-number">1.4.2</span> ファイルを一括で読み込む</h3>
+<pre class="r"><code>ldata &lt;-
+    map(files, ~read_xlsx(.))</code></pre>
+</div>
+<div id="ファイル名抽出" class="section level3">
+<h3><span class="header-section-number">1.4.3</span> ファイル名抽出</h3>
+<pre class="r"><code>file_name &lt;- 
+  str_replace(files, &quot;.xlsx&quot;, &quot;&quot;) %&gt;% 
+  str_replace(&quot;result/&quot;, &quot;&quot;)</code></pre>
+</div>
+<div id="リストの要素名にファイル名を付与" class="section level3">
+<h3><span class="header-section-number">1.4.4</span> リストの要素名にファイル名を付与</h3>
+<pre class="r"><code>ldata &lt;-
+    set_names(ldata, file_name)</code></pre>
+</div>
+<div id="リストの各要素を1つのデータフレームに統合" class="section level3">
+<h3><span class="header-section-number">1.4.5</span> リストの各要素を1つのデータフレームに統合</h3>
+<pre class="r"><code>bind_rows(ldata, .id = &quot;group&quot;)</code></pre>
+<pre><code>## # A tibble: 18 x 4
+##    group  名前    学年  身長
+##    &lt;chr&gt;  &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt;
+##  1 Aqours 高海       2   157
+##  2 Aqours 桜内       2   160
+##  3 Aqours 松浦       3   162
+##  4 Aqours 黒澤       3   162
+##  5 Aqours 渡辺       2   157
+##  6 Aqours 津島       1   156
+##  7 Aqours 国木田     1   152
+##  8 Aqours 小原       3   163
+##  9 Aqours 黒澤       1   154
+## 10 μ&#39;s    高坂       2   157
+## 11 μ&#39;s    絢瀬       3   162
+## 12 μ&#39;s    南         2   159
+## 13 μ&#39;s    園田       2   159
+## 14 μ&#39;s    星空       1   155
+## 15 μ&#39;s    西木野     1   161
+## 16 μ&#39;s    東條       3   159
+## 17 μ&#39;s    小泉       1   156
+## 18 μ&#39;s    矢澤       3   154</code></pre>
 </div>
 </div>
 </div>
 <div id="csvファイルの読み込み" class="section level1">
-<h1>csvファイルの読み込み</h1>
+<h1><span class="header-section-number">2</span> csvファイルの読み込み</h1>
 <ul>
 <li>文字化け注意！</li>
 <li>WindowsおよびExcelで作成したファイルは多くの場合SHIT-JISで作られていることが多い</li>
@@ -1655,9 +1704,9 @@ imap(df_all, ~write_xlsx(.x, path = str_c(&quot;result/&quot;,.y , &quot;.xlsx&q
 </ul></li>
 </ul>
 <div id="read_csv" class="section level2">
-<h2>read_csv()</h2>
+<h2><span class="header-section-number">2.1</span> read_csv()</h2>
 <div id="utf-8でエンコードされたcsvファイル" class="section level3">
-<h3>utf-8でエンコードされたcsvファイル</h3>
+<h3><span class="header-section-number">2.1.1</span> utf-8でエンコードされたcsvファイル</h3>
 <ul>
 <li><code>readr::read_csv()</code>は，utf-8でエンコードされたファイルが前提</li>
 <li>WindowsでExcel等で作った場合はこれじゃないことが多いはず</li>
@@ -1678,7 +1727,7 @@ read_csv(&quot;data/データ（UTF-8）.csv&quot;)</code></pre>
 ## 9 黒澤       1   154</code></pre>
 </div>
 <div id="文字化けの例shit-jisでエンコードされたcsvファイル" class="section level3">
-<h3>【文字化けの例】SHIT-JISでエンコードされたcsvファイル</h3>
+<h3><span class="header-section-number">2.1.2</span> 【文字化けの例】SHIT-JISでエンコードされたcsvファイル</h3>
 <ul>
 <li>正確にはSHIT-JISの拡張版であるcp932</li>
 <li>変数名も文字化けして読めなくなるので、<code>clean_names()</code>で読める形式に変換している</li>
@@ -1699,7 +1748,7 @@ read_csv(&quot;data/データ（UTF-8）.csv&quot;)</code></pre>
 ## 9 &quot;\x8d\x95\xe0V&quot;                            1                      154</code></pre>
 </div>
 <div id="shit-jisでエンコードされたcsvファイル" class="section level3">
-<h3>SHIT-JISでエンコードされたcsvファイル</h3>
+<h3><span class="header-section-number">2.1.3</span> SHIT-JISでエンコードされたcsvファイル</h3>
 <ul>
 <li>これを読むためには，引数でSHIT-JISのファイルであることを指定する必要がある
 <ul>
@@ -1722,7 +1771,7 @@ read_csv(&quot;data/データ（UTF-8）.csv&quot;)</code></pre>
 </div>
 </div>
 <div id="read.csv" class="section level2">
-<h2>read.csv</h2>
+<h2><span class="header-section-number">2.2</span> read.csv</h2>
 <ul>
 <li>従来のcsvを読む関数<code>read.csv()</code>を使えば，デフォルトでSHIT-JISのファイルは読める</li>
 </ul>
@@ -1754,9 +1803,9 @@ read_csv(&quot;data/データ（UTF-8）.csv&quot;)</code></pre>
 </div>
 </div>
 <div id="その他" class="section level1">
-<h1>その他</h1>
+<h1><span class="header-section-number">3</span> その他</h1>
 <div id="複数シートにデータが入ったexcelファイルを作成データ作成用のためここでは実行しない" class="section level2">
-<h2>複数シートにデータが入ったExcelファイルを作成（データ作成用のためここでは実行しない）</h2>
+<h2><span class="header-section-number">3.1</span> 複数シートにデータが入ったExcelファイルを作成（データ作成用のためここでは実行しない）</h2>
 <ul>
 <li>データフレーム内の特定の変数で分割したデータフレームのリストを作成</li>
 </ul>
