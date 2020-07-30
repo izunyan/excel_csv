@@ -1510,7 +1510,7 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">データの読み込み</h1>
-<h4 class="date">2020/05/24</h4>
+<h4 class="date">2020/07/30</h4>
 
 </div>
 
@@ -1801,6 +1801,44 @@ read_csv(&quot;data/データ（UTF-8）.csv&quot;)</code></pre>
 ## 8          小原    3  163
 ## 9          黒澤    1  154</code></pre>
 </div>
+<div id="data.tablefread" class="section level2">
+<h2><span class="header-section-number">2.3</span> data.table::fread()</h2>
+<ul>
+<li>大容量のcsvを読む関数<code>fread()</code>を使えば，デフォルトでSHIT-JISのファイルは読める</li>
+</ul>
+<pre class="r"><code>library(data.table)
+fread(&quot;data/データ（SHIT-JIS）.csv&quot;) %&gt;% 
+  as_tibble() # tibble形式に変換</code></pre>
+<pre><code>## # A tibble: 9 x 3
+##   名前    学年  身長
+##   &lt;chr&gt;  &lt;int&gt; &lt;int&gt;
+## 1 高海       2   157
+## 2 桜内       2   160
+## 3 松浦       3   162
+## 4 黒澤       3   162
+## 5 渡辺       2   157
+## 6 津島       1   156
+## 7 国木田     1   152
+## 8 小原       3   163
+## 9 黒澤       1   154</code></pre>
+<ul>
+<li>UTF-8を読む場合</li>
+</ul>
+<pre class="r"><code>fread(&quot;data/データ（UTF-8）.csv&quot;, encoding = &quot;UTF-8&quot;) %&gt;% 
+  as_tibble()</code></pre>
+<pre><code>## # A tibble: 9 x 3
+##   名前    学年  身長
+##   &lt;chr&gt;  &lt;int&gt; &lt;int&gt;
+## 1 高海       2   157
+## 2 桜内       2   160
+## 3 松浦       3   162
+## 4 黒澤       3   162
+## 5 渡辺       2   157
+## 6 津島       1   156
+## 7 国木田     1   152
+## 8 小原       3   163
+## 9 黒澤       1   154</code></pre>
+</div>
 </div>
 <div id="その他" class="section level1">
 <h1><span class="header-section-number">3</span> その他</h1>
@@ -1868,7 +1906,7 @@ $(document).ready(function ()  {
       theme: "bootstrap3",
       context: '.toc-content',
       hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
       },
       ignoreSelector: ".toc-ignore",
       scrollTo: 0

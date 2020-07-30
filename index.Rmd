@@ -183,6 +183,24 @@ read.csv("data/データ（UTF-8）.csv", encoding = "UTF-8")
 ```
 
 
+## data.table::fread()
+
+* 大容量のcsvを読む関数`fread()`を使えば，デフォルトでSHIT-JISのファイルは読める
+
+```{r}
+library(data.table)
+fread("data/データ（SHIT-JIS）.csv") %>% 
+  as_tibble() # tibble形式に変換
+
+```
+
+* UTF-8を読む場合
+
+```{r}
+fread("data/データ（UTF-8）.csv", encoding = "UTF-8") %>% 
+  as_tibble()
+```
+
 
 # その他
 ## 複数シートにデータが入ったExcelファイルを作成（データ作成用のためここでは実行しない）
